@@ -1,5 +1,6 @@
 import { CONST } from "./common/const.js";
 import { configure } from "@vendia/serverless-express";
+import controller from "./controller/controller.js";
 import express from "express";
 import {
   verifyKeyMiddleware,
@@ -8,7 +9,7 @@ import {
 } from "discord-interactions";
 
 if (CONST.API_ENV == undefined) {
-  console.log("bizenAPI SETTING ERROR");
+  console.log("BotTools SETTING ERROR");
   process.exit(1);
 }
 const app = express();
@@ -33,6 +34,18 @@ app.get("/", async (_, res) => {
   res.send(result);
 });
 
+app.get("/sendMember/:id/:mes", async (req, res) => {
+  const message = "sendMessage for member:";
+  await controller.sqsSend({
+    function: "discord-direct-message",
+    params: {
+      message: req.params.mes,
+      userId: req.params.id,
+    },
+  });
+  res.send({ message: message + req.params.mes + " to " + req.params.id });
+});
+
 app.post(
   "/interactions",
   verifyKeyMiddleware(CONST.DISCORD_PUB_KEY),
@@ -49,10 +62,18 @@ app.post(
 
       //=============================================================
       if (message.data.name === "gm") {
+        await controller.sqsSend({
+          function: "discord-message",
+          params: {
+            message:
+              message.member.user.global_name + "さん。おはようございます。",
+            channelId: message.channel_id,
+          },
+        });
         res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: "GM!",
+            content: "good morning mr." + message.member.user.global_name,
             flags: 64,
           },
         });

@@ -8,7 +8,7 @@ mkdir ../dist
 if [ $1 = 'stg' ]; then
 exit;
 elif [ $1 = 'flow' ]; then
-	cp bottool_flow.env ../dist/.env
+	cp api_flow.env ../dist/.env
 	LAMBDA_FUNCTION_NAME=flow-api
 	filename="flow_upload.zip"
 	rm ${dir}/../${filename}
