@@ -129,7 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# yarn v2
+# 環境個別
 *.zip
 *.env
-customSettings.ts  
+customSettings.ts
+deploy/custom_settings/*

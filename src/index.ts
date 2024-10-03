@@ -30,7 +30,14 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.get("/", async (_, res) => {
-  const result = "<h1>" + CONST.API_NAME + " ver." + CONST.VERSION + "</h1>";
+  const result =
+    "<h1>" +
+    CONST.API_NAME +
+    " ver." +
+    CONST.VERSION +
+    " [" +
+    CONST.DEPLOY_DATETIME +
+    "]</h1>";
   res.send(result);
 });
 

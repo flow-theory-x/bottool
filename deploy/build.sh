@@ -8,21 +8,21 @@ mkdir ../dist
 if [ $1 = 'stg' ]; then
 exit;
 elif [ $1 = 'flow' ]; then
-	cp api_flow.env ../dist/.env
+	cp custom_settings/api_flow.env ../dist/.env
 	LAMBDA_FUNCTION_NAME=flow-api
 	filename="flow_upload.zip"
 	rm ${dir}/../${filename}
 	echo 'Zip for FLOW'
 elif [ $1 = 'local' ]; then
-	cp api_local.env ../dist/.env
-elif [ $1 = 'test' ]; then
-	cp api_local.env ../dist/.env
+	cp custom_settings/api_local.env ../dist/.env
 else
 	echo 'input error'
 	exit
 fi
 
-date +'VERSION=%Y%m%d%H%M%S' >> ../dist/.env
+cp custom_settings/customSettings.env ../src/common/
+git show --format='VERSION=%h' --no-patch >> ../dist/.env
+date +'DEPLOY_DATETIME=%Y/%m/%d_%H:%M:%S' >> ../dist/.env
 
 echo "DIR:" $dir
 echo "MODE:" $1
