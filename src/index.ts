@@ -60,10 +60,7 @@ app.post(
         await controller.sqsSend({
           function: "discord-response",
           params: {
-            message:
-              message.member.user.global_name +
-              "さんこんにちは。 api-ver:" +
-              CONST.VERSION,
+            message: message.member.user.global_name + "さんGM!",
             mesToken: message.token,
           },
         });
@@ -72,6 +69,20 @@ app.post(
           type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
         });
       }
+      //=============================================================
+      if (message.data.name === "system") {
+        await controller.sqsSend({
+          function: "system-connect",
+          params: {
+            message: JSON.stringify(message),
+            apivar: CONST.VERSION,
+          },
+        });
+        res.send({
+          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+        });
+      }
+      //=============================================================
     }
   }
 );
