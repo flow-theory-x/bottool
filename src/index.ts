@@ -72,7 +72,7 @@ app.post(
         await controller.sqsSend({
           function: "discord-response",
           params: {
-            message: message.member.user.global_name + "さんにお返しします。",
+            message: message.member.user.global_name + "さんGM!",
             mesToken: message.token,
           },
         });
