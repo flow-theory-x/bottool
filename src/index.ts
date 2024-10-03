@@ -70,19 +70,15 @@ app.post(
       //=============================================================
       if (message.data.name === "gm") {
         await controller.sqsSend({
-          function: "discord-message",
+          function: "discord-response",
           params: {
-            message:
-              message.member.user.global_name + "さん。おはようございます。",
-            channelId: message.channel_id,
+            message: message.member.user.global_name + "さんにお返しします。",
+            mesToken: message.token,
           },
         });
+
         res.send({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          data: {
-            content: "good morning mr." + message.member.user.global_name,
-            flags: 64,
-          },
+          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
         });
       }
     }
