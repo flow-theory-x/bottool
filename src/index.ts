@@ -68,9 +68,9 @@ app.post(
         res.send({
           type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
         });
-      }
-      //=============================================================
-      if (message.data.name === "system") {
+      } else {
+        //=============================================================
+        // BG側で処理するものはmessageごと転送
         await controller.sqsSend({
           function: "system-connect",
           params: {
@@ -81,8 +81,8 @@ app.post(
         res.send({
           type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
         });
+        //=============================================================
       }
-      //=============================================================
     }
   }
 );
